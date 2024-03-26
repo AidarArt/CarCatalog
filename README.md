@@ -4,6 +4,7 @@ This app allows the user to find the car he is interested in and read informatio
 
 ## Technologies and dependencies
 
+ - Java SDK 19
  - [Tomcat 10.1.15](https://tomcat.apache.org/download-10.cgi)
  - [Junit 5.10.2](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api)
  - [PostgreSQL JDBC Driver 42.7.3](https://mvnrepository.com/artifact/org.postgresql/postgresql)
