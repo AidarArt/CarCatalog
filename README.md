@@ -9,3 +9,7 @@ This app allows the user to find the car he is interested in and read informatio
  - [Junit 5.10.2](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api)
  - [PostgreSQL JDBC Driver 42.7.3](https://mvnrepository.com/artifact/org.postgresql/postgresql)
  - [Jakarta Servlet 6.1.0-M2](https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api)
+
+## Database diagram
+
+![rest_db diagram](https://github.com/AidarArt/CarCatalog/blob/master/src/main/resources/rest_db.png)
