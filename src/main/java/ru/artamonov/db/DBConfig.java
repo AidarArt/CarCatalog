@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Класс помогающий распарсить db.properties
+ */
 public class DBConfig {
     private static final Properties properties = new Properties();
 
