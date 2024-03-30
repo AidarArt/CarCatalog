@@ -14,72 +14,48 @@ This app allows the user to find the car he is interested in and read informatio
 Script:
 
 ```bash
-  CREATE TABLE body_type (
-  body_id SERIAL PRIMARY KEY NOT NULL,
-  body_name varchar(30) NOT NULL UNIQUE,
-  body_weight real NOT NULL,
-  body_length real NOT NULL,
-  body_width real NOT NULL,
-  body_height real NOT NULL
-);
-
-CREATE TABLE creator (
-  creator_id SERIAL PRIMARY KEY NOT NULL,
-  creator_name varchar(255) NOT NULL,
-  creator_surname varchar(255) NOT NULL,
-  creator_profession varchar(50) NOT NULL
-);
-
-CREATE TABLE brand (
-    brand_id SERIAL PRIMARY KEY NOT NULL,
+  CREATE TABLE brand (
+    brand_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
     brand_name varchar(100) NOT NULL UNIQUE,
-    brand_country_id integer NOT NULL,
-    FOREIGN KEY (brand_country_id) REFERENCES country (country_id) ON DELETE CASCADE
+    brand_country varchar(20) NOT NULL
 );
 
 CREATE TABLE engine (
-  engine_id SERIAL PRIMARY KEY NOT NULL,
-  engine_name varchar(50) NOT NULL UNIQUE,
-  engine_capacity real NOT NULL,
-  engine_horse_power real NOT NULL,
-  engine_type varchar(30) NOT NULL,
-  engine_cylinders_number smallint NOT NULL,
-  engine_consumption numeric(6, 2) NOT NULL
+    engine_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    engine_brand_id INTEGER NOT NULL,
+    engine_capacity REAL NOT NULL,
+    engine_horse_power REAL NOT NULL,
+    engine_cylinders_number SMALLINT NOT NULL,
+    engine_consumption REAL NOT NULL,
+    FOREIGN KEY (engine_brand_id) REFERENCES brand (brand_id) ON DELETE CASCADE
 );
 
-CREATE TABLE transmission (
-    transmission_id SERIAL PRIMARY KEY NOT NULL,
-    transmission_name varchar(50) NOT NULL UNIQUE,
-    transmission_gears_number smallint NOT NULL
+CREATE TABLE creator (
+    creator_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    creator_name varchar(255) NOT NULL,
+    creator_surname varchar(255) NOT NULL,
+    creator_profession varchar(255) NOT NULL
 );
-
-CREATE TABLE country (
-  country_id SERIAL PRIMARY KEY NOT NULL,
-  country_name varchar(255) NOT NULL UNIQUE
-);
-
+-- Конкретная модель автомобиля
 CREATE TABLE car (
-  car_id SERIAL PRIMARY KEY NOT NULL,
-  car_model varchar(100) NOT NULL UNIQUE,
-  car_brand_id integer,
-  car_acceleration_to_100 real NOT NULL,
-  car_max_speed smallint NOT NULL,
-  car_engine_id integer,
-  car_transmission_id integer,
-  car_body_type_id integer,
-  FOREIGN KEY (car_brand_id) REFERENCES brand (brand_id) ON DELETE CASCADE,
-  FOREIGN KEY (car_engine_id) REFERENCES engine (engine_id) ON DELETE SET DEFAULT,
-  FOREIGN KEY (car_transmission_id) REFERENCES transmission (transmission_id) ON DELETE SET DEFAULT,
-  FOREIGN KEY (car_body_type_id) REFERENCES body_type (body_id) ON DELETE SET DEFAULT
+    car_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+    car_model_name varchar(100) NOT NULL,
+    car_brand_id INTEGER NOT NULL,
+    car_engine_id INTEGER NOT NULL,
+    car_acceleration_to_100 REAL NOT NULL,
+    car_max_speed REAL NOT NULL,
+    car_transmission_type varchar(10) NOT NULL,
+    car_body_type varchar(20) NOT NULL,
+    FOREIGN KEY (car_brand_id) REFERENCES brand (brand_id) ON DELETE CASCADE,
+    FOREIGN KEY (car_engine_id) REFERENCES engine (engine_id) ON DELETE CASCADE
 );
 
-CREATE TABLE car_creator (
-  car_id integer NOT NULL,
-  creator_id integer NOT NULL,
-  FOREIGN KEY (car_id) REFERENCES car (car_id) ON DELETE SET DEFAULT,
-  FOREIGN KEY (creator_id) REFERENCES creator (creator_id) ON DELETE SET DEFAULT
+CREATE TABLE creator_of_car (
+    car_id INTEGER NOT NULL,
+    creator_id INTEGER NOT NULL,
+    FOREIGN KEY (car_id) REFERENCES car (car_id) ON DELETE CASCADE,
+    FOREIGN KEY (creator_id) REFERENCES creator (creator_id) ON DELETE CASCADE
 );
-
 ```
 Diagram:
 ![rest_db diagram](https://github.com/AidarArt/CarCatalog/blob/master/src/main/resources/rest_db.png)
