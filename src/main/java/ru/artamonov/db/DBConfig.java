@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Класс помогающий распарсить db.properties
+ * Class that helps parse db.properties
  */
 public class DBConfig {
     private static final Properties properties = new Properties();

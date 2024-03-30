@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Интерфейс реализация которого предоставляет Connection
+ * Classes that implement this interface can be used to obtain a connection to the database
  */
 public interface ConnectionManager {
     Connection getConnection() throws SQLException;

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Конкретная реализация менеджера, единственный метод создает и возвращает Connection
+ * Implementation for obtaining a postgreSQL database connection
  */
 public class PostgreSQLConnectionManager implements ConnectionManager{
     @Override
