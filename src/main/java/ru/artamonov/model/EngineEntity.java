@@ -1,5 +1,7 @@
 package ru.artamonov.model;
 
+import ru.artamonov.model.enums.EngineType;
+
 import java.util.List;
 
 public class EngineEntity {
@@ -9,18 +11,21 @@ public class EngineEntity {
     private double engineHorsePower;
     private int engineCylindersNumber;
     private double engineConsumption;
+    private EngineType engineType;
     private List<CarEntity> engineCars;
 
     public EngineEntity() {
     }
 
-    public EngineEntity(Long engineId, BrandEntity brand, double engineCapacity, double engineHorsePower, int engineCylindersNumber, double engineConsumption) {
+    public EngineEntity(Long engineId, BrandEntity brand, double engineCapacity, double engineHorsePower,
+                        int engineCylindersNumber, double engineConsumption, List<CarEntity> engineCars) {
         this.engineId = engineId;
         this.brand = brand;
         this.engineCapacity = engineCapacity;
         this.engineHorsePower = engineHorsePower;
         this.engineCylindersNumber = engineCylindersNumber;
         this.engineConsumption = engineConsumption;
+        this.engineCars = engineCars;
     }
 
     public Long getEngineId() {
@@ -69,5 +74,34 @@ public class EngineEntity {
 
     public void setEngineConsumption(double engineConsumption) {
         this.engineConsumption = engineConsumption;
+    }
+
+    public EngineType getEngineType() {
+        return engineType;
+    }
+
+    public void setEngineType(EngineType engineType) {
+        this.engineType = engineType;
+    }
+
+    public List<CarEntity> getEngineCars() {
+        return engineCars;
+    }
+
+    public void setEngineCars(List<CarEntity> engineCars) {
+        this.engineCars = engineCars;
+    }
+
+    @Override
+    public String toString() {
+        return "EngineEntity\n{" +
+                "\nengineId=" + engineId +
+                ", \nbrand=" + brand +
+                ", \nengineCapacity=" + engineCapacity +
+                ", \nengineHorsePower=" + engineHorsePower +
+                ", \nengineCylindersNumber=" + engineCylindersNumber +
+                ", \nengineConsumption=" + engineConsumption +
+                ", \nengineType=" + engineType +
+                "\n}";
     }
 }

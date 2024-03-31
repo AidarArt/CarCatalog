@@ -9,6 +9,7 @@ public class CarEntity {
     private Long carId;
     private BrandEntity carBrand;
     private EngineEntity carEngine;
+    private String carModelName;
     private double carAccelerationTo100;
     private double carMaxSpeed;
     private Transmission carTransmission;
@@ -18,14 +19,18 @@ public class CarEntity {
     public CarEntity() {
     }
 
-    public CarEntity(Long carId, BrandEntity carBrand, EngineEntity carEngine, double carAccelerationTo100, double carMaxSpeed, Transmission carTransmission, BodyType carBodyType) {
+    public CarEntity(Long carId, BrandEntity carBrand, EngineEntity carEngine, String carModelName,
+                     double carAccelerationTo100, double carMaxSpeed, Transmission carTransmission,
+                     BodyType carBodyType, List<CreatorEntity> carCreators) {
         this.carId = carId;
         this.carBrand = carBrand;
         this.carEngine = carEngine;
+        this.carModelName = carModelName;
         this.carAccelerationTo100 = carAccelerationTo100;
         this.carMaxSpeed = carMaxSpeed;
         this.carTransmission = carTransmission;
         this.carBodyType = carBodyType;
+        this.carCreators = carCreators;
     }
 
     public Long getCarId() {
@@ -50,6 +55,14 @@ public class CarEntity {
 
     public void setCarEngine(EngineEntity carEngine) {
         this.carEngine = carEngine;
+    }
+
+    public String getCarModelName() {
+        return carModelName;
+    }
+
+    public void setCarModelName(String carModelName) {
+        this.carModelName = carModelName;
     }
 
     public double getCarAccelerationTo100() {
@@ -82,5 +95,27 @@ public class CarEntity {
 
     public void setCarBodyType(BodyType carBodyType) {
         this.carBodyType = carBodyType;
+    }
+
+    public List<CreatorEntity> getCarCreators() {
+        return carCreators;
+    }
+
+    public void setCarCreators(List<CreatorEntity> carCreators) {
+        this.carCreators = carCreators;
+    }
+
+    @Override
+    public String toString() {
+        return "CarEntity\n{" +
+                "\ncarId=" + carId +
+                ", \ncarBrand=" + carBrand +
+                ", \ncarEngine=" + carEngine +
+                ", \ncarModelName='" + carModelName + '\'' +
+                ", \ncarAccelerationTo100=" + carAccelerationTo100 +
+                ", \ncarMaxSpeed=" + carMaxSpeed +
+                ", \ncarTransmission=" + carTransmission +
+                ", \ncarBodyType=" + carBodyType +
+                "\n}";
     }
 }
