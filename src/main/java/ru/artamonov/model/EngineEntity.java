@@ -91,17 +91,4 @@ public class EngineEntity {
     public void setEngineCars(List<CarEntity> engineCars) {
         this.engineCars = engineCars;
     }
-
-    @Override
-    public String toString() {
-        return "EngineEntity\n{" +
-                "\nengineId=" + engineId +
-                ", \nbrand=" + brand +
-                ", \nengineCapacity=" + engineCapacity +
-                ", \nengineHorsePower=" + engineHorsePower +
-                ", \nengineCylindersNumber=" + engineCylindersNumber +
-                ", \nengineConsumption=" + engineConsumption +
-                ", \nengineType=" + engineType +
-                "\n}";
-    }
 }

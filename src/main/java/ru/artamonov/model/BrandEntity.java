@@ -69,15 +69,4 @@ public class BrandEntity {
     public void setBrandCars(List<CarEntity> brandCars) {
         this.brandCars = brandCars;
     }
-
-    @Override
-    public String toString() {
-        return "BrandEntity{" +
-                "brandId=" + brandId +
-                ", brandName='" + brandName + '\'' +
-                ", brandCountry=" + brandCountry +
-                ", brandEngines=" + brandEngines +
-                ", brandCars=" + brandCars +
-                '}';
-    }
 }
