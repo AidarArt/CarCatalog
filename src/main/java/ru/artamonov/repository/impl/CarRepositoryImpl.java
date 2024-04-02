@@ -2,17 +2,19 @@ package ru.artamonov.repository.impl;
 
 import ru.artamonov.db.ConnectionManager;
 import ru.artamonov.model.CarEntity;
+import ru.artamonov.model.CreatorEntity;
 import ru.artamonov.repository.mapper.CarRepository;
 import ru.artamonov.repository.parser.impl.CarResultParser;
+import ru.artamonov.repository.parser.impl.CreatorResultParser;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarRepositoryImpl implements CarRepository {
 
     private final ConnectionManager manager;
-    private final CarResultParser resultParser = new CarResultParser();
+    private final CarResultParser carResultParser = new CarResultParser();
+    private final CreatorResultParser creatorResultParser = new CreatorResultParser();
 
     public CarRepositoryImpl(ConnectionManager manager) {
         this.manager = manager;
@@ -27,8 +29,7 @@ public class CarRepositoryImpl implements CarRepository {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-//            Add a test if resultParser is empty
-            return resultParser.getEntity(resultSet);
+            return carResultParser.getEntity(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,10 +45,7 @@ public class CarRepositoryImpl implements CarRepository {
              Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(query);
 
-            List<CarEntity> entities = new ArrayList<>();
-            entities.add(resultParser.getEntity(resultSet));
-
-            return entities;
+            return carResultParser.getAllEntities(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,7 +100,7 @@ public class CarRepositoryImpl implements CarRepository {
 
     @Override
     public void remove(Long id) {
-        String query = "DELETE FROM car WHERE car_id = ?";
+        String query = "DELETE FROM car WHERE car_id = ?;";
 
         try (Connection connection = manager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -113,5 +111,22 @@ public class CarRepositoryImpl implements CarRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<CreatorEntity> getCarCreators(Long carId) {
+        String query = "SELECT c.creator_id, c.creator_name, c.creator_surname, c.creator_profession FROM creator_of_car JOIN creator c on c.creator_id = creator_of_car.creator_id WHERE car_id = ?;";
+        try (Connection connection = manager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setLong(1, carId);
+            ResultSet resultSet = statement.executeQuery();
+            return creatorResultParser.getAllEntities(resultSet);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
     }
 }

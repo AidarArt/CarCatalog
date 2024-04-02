@@ -1,8 +1,10 @@
 package ru.artamonov.repository.impl;
 
 import ru.artamonov.db.ConnectionManager;
+import ru.artamonov.model.CarEntity;
 import ru.artamonov.model.CreatorEntity;
 import ru.artamonov.repository.mapper.CreatorRepository;
+import ru.artamonov.repository.parser.impl.CarResultParser;
 import ru.artamonov.repository.parser.impl.CreatorResultParser;
 
 import java.sql.*;
@@ -12,7 +14,8 @@ import java.util.List;
 public class CreatorRepositoryImpl implements CreatorRepository {
 
     private final ConnectionManager manager;
-    private final CreatorResultParser resultParser = new CreatorResultParser();
+    private final CreatorResultParser creatorResultParser = new CreatorResultParser();
+    private final CarResultParser carResultParser = new CarResultParser();
 
     public CreatorRepositoryImpl(ConnectionManager manager) {
         this.manager = manager;
@@ -28,7 +31,7 @@ public class CreatorRepositoryImpl implements CreatorRepository {
 
             ResultSet resultSet = statement.executeQuery();
 
-            return resultParser.getEntity(resultSet);
+            return creatorResultParser.getEntity(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,7 +48,7 @@ public class CreatorRepositoryImpl implements CreatorRepository {
             ResultSet resultSet = statement.executeQuery(query);
             List<CreatorEntity> creatorEntities = new ArrayList<>();
 
-            creatorEntities.add(resultParser.getEntity(resultSet));
+            creatorEntities.add(creatorResultParser.getEntity(resultSet));
 
             return creatorEntities;
 
@@ -102,5 +105,20 @@ public class CreatorRepositoryImpl implements CreatorRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<CarEntity> getCreatorCars(Long creatorId) {
+        String query = "SELECT c.car_id, c.car_model_name, c.car_brand_id, c.car_engine_id, c.car_acceleration_to_100, c.car_max_speed, c.car_transmission_type, c.car_body_type FROM creator_of_car JOIN car c on c.car_id = creator_of_car.car_id WHERE creator_id = ?;";
+        try (Connection connection = manager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, creatorId);
+            ResultSet resultSet = statement.executeQuery();
+            return carResultParser.getAllEntities(resultSet);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
     }
 }

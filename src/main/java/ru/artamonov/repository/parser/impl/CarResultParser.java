@@ -11,6 +11,8 @@ import ru.artamonov.repository.parser.ResultParser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CarResultParser implements ResultParser<CarEntity> {
     @Override
@@ -51,4 +53,49 @@ public class CarResultParser implements ResultParser<CarEntity> {
 
         return carEntity;
     }
+
+    @Override
+    public List<CarEntity> getAllEntities(ResultSet resultSet) throws SQLException {
+        List<CarEntity> entities = new ArrayList<>();
+
+        while (resultSet.next()) {
+            CarEntity carEntity = new CarEntity();
+
+            carEntity.setCarId(resultSet.getLong(1));
+            carEntity.setCarModelName(resultSet.getString(2));
+
+            BrandEntity brand = new BrandEntity();
+            brand.setBrandId(resultSet.getLong(3));
+            brand.setBrandName(resultSet.getString(10));
+            brand.setBrandCountry(Country.valueOf(resultSet.getString(11)));
+            carEntity.setCarBrand(brand);
+
+            EngineEntity engine = new EngineEntity();
+            engine.setEngineId(resultSet.getLong(4));
+
+            BrandEntity engineBrand = new BrandEntity();
+            engineBrand.setBrandId(resultSet.getLong(13));
+            engineBrand.setBrandName(resultSet.getString(20));
+            engineBrand.setBrandCountry(Country.valueOf(resultSet.getString(21)));
+
+            engine.setBrand(engineBrand);
+            engine.setEngineCapacity(resultSet.getDouble(14));
+            engine.setEngineHorsePower(resultSet.getDouble(15));
+            engine.setEngineCylindersNumber(resultSet.getInt(16));
+            engine.setEngineConsumption(resultSet.getDouble(17));
+            engine.setEngineType(EngineType.valueOf(resultSet.getString(18)));
+            carEntity.setCarEngine(engine);
+
+            carEntity.setCarAccelerationTo100(resultSet.getDouble(5));
+            carEntity.setCarMaxSpeed(resultSet.getDouble(6));
+            carEntity.setCarTransmission(Transmission.valueOf(resultSet.getString(7)));
+            carEntity.setCarBodyType(BodyType.valueOf(resultSet.getString(8)));
+
+            entities.add(carEntity);
+        }
+
+        return entities;
+    }
+
+
 }

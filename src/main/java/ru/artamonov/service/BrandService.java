@@ -2,5 +2,13 @@ package ru.artamonov.service;
 
 import ru.artamonov.model.BrandEntity;
 
-public interface BrandService extends Service<BrandEntity, Long> {
+import java.util.List;
+
+public interface BrandService {
+
+    BrandEntity save(BrandEntity entity);
+    BrandEntity findById(Long id);
+    List<BrandEntity> findAll();
+    BrandEntity update(BrandEntity entity);
+    void delete(Long id);
 }

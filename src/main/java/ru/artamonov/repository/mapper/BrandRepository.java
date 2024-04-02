@@ -9,4 +9,5 @@ import java.util.List;
 public interface BrandRepository extends Repository<BrandEntity, Long> {
     List<EngineEntity> getBrandEngines(Long brandId);
     List<CarEntity> getBrandCars(Long brandId);
+    Long findByName(String name);
 }

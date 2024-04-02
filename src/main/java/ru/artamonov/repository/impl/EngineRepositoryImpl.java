@@ -1,8 +1,10 @@
 package ru.artamonov.repository.impl;
 
 import ru.artamonov.db.ConnectionManager;
+import ru.artamonov.model.CarEntity;
 import ru.artamonov.model.EngineEntity;
 import ru.artamonov.repository.mapper.EngineRepository;
+import ru.artamonov.repository.parser.impl.CarResultParser;
 import ru.artamonov.repository.parser.impl.EngineResultParser;
 
 import java.sql.*;
@@ -12,7 +14,8 @@ import java.util.List;
 public class EngineRepositoryImpl implements EngineRepository {
 
     private final ConnectionManager manager;
-    private final EngineResultParser resultParser = new EngineResultParser();
+    private final EngineResultParser engineResultParser = new EngineResultParser();
+    private final CarResultParser carResultParser = new CarResultParser();
 
     public EngineRepositoryImpl(ConnectionManager manager) {
         this.manager = manager;
@@ -26,10 +29,8 @@ public class EngineRepositoryImpl implements EngineRepository {
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setLong(1, id);
-
             ResultSet resultSet = statement.executeQuery();
-
-            return resultParser.getEntity(resultSet);
+            return engineResultParser.getEntity(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,11 +45,8 @@ public class EngineRepositoryImpl implements EngineRepository {
              Statement statement = connection.createStatement()) {
 
             ResultSet resultSet = statement.executeQuery(query);
-            List<EngineEntity> entities = new ArrayList<>();
 
-            entities.add(resultParser.getEntity(resultSet));
-
-            return entities;
+            return engineResultParser.getAllEntities(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,5 +108,22 @@ public class EngineRepositoryImpl implements EngineRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<CarEntity> getEngineCars(Long engineId) {
+        String query = "SELECT * FROM car WHERE car_engine_id = ?";
+        try (Connection connection = manager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setLong(1, engineId);
+            ResultSet resultSet = statement.executeQuery();
+
+            return carResultParser.getAllEntities(resultSet);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
