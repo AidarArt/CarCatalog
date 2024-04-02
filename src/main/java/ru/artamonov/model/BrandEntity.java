@@ -7,28 +7,18 @@ import java.util.List;
 public class BrandEntity {
     private Long brandId;
     private String brandName;
-    private Country brandCountry;
-    private List<EngineEntity> brandEngines;
+    private String brandCountry;
     private List<CarEntity> brandCars;
 
     public BrandEntity() {
     }
 
-    public BrandEntity(Long brandId, String brandName, Country brandCountry) {
+    public BrandEntity(Long brandId, String brandName, String brandCountry, List<CarEntity> brandCars) {
         this.brandId = brandId;
         this.brandName = brandName;
         this.brandCountry = brandCountry;
-    }
-
-    public BrandEntity(Long brandId, String brandName, Country brandCountry,
-                       List<EngineEntity> brandEngines, List<CarEntity> brandCars) {
-        this.brandId = brandId;
-        this.brandName = brandName;
-        this.brandCountry = brandCountry;
-        this.brandEngines = brandEngines;
         this.brandCars = brandCars;
     }
-
 
     public Long getBrandId() {
         return brandId;
@@ -46,20 +36,12 @@ public class BrandEntity {
         this.brandName = brandName;
     }
 
-    public Country getBrandCountry() {
+    public String getBrandCountry() {
         return brandCountry;
     }
 
-    public void setBrandCountry(Country brandCountry) {
+    public void setBrandCountry(String brandCountry) {
         this.brandCountry = brandCountry;
-    }
-
-    public List<EngineEntity> getBrandEngines() {
-        return brandEngines;
-    }
-
-    public void setBrandEngines(List<EngineEntity> brandEngines) {
-        this.brandEngines = brandEngines;
     }
 
     public List<CarEntity> getBrandCars() {
@@ -68,13 +50,5 @@ public class BrandEntity {
 
     public void setBrandCars(List<CarEntity> brandCars) {
         this.brandCars = brandCars;
-    }
-
-    @Override
-    public String toString() {
-        return "Brand {\n" +
-                "brandName='" + brandName + '\n' +
-                ", brandCountry=" + brandCountry +
-                "\n}";
     }
 }
