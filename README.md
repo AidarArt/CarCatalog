@@ -58,4 +58,4 @@ CREATE TABLE creator_of_car (
 );
 ```
 Diagram:
-![rest_db diagram](https://github.com/AidarArt/CarCatalog/blob/master/src/main/resources/rest_db.png)
+![rest_db diagram](https://github.com/AidarArt/CarCatalog/blob/main/src/main/resources/car_catalog_db.png)
