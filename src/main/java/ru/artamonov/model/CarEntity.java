@@ -49,4 +49,8 @@ public class CarEntity {
     public void setCarCreators(List<CreatorEntity> carCreators) {
         this.carCreators = carCreators;
     }
+
+    public void addCreator(CreatorEntity creatorEntity) {
+        carCreators.add(creatorEntity);
+    }
 }

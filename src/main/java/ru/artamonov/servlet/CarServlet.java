@@ -8,10 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import ru.artamonov.model.CarEntity;
 import ru.artamonov.service.CarService;
 import ru.artamonov.service.impl.CarServiceImpl;
-import ru.artamonov.servlet.dto.CarIncomingDto;
-import ru.artamonov.servlet.dto.CarOutGoingDto;
-import ru.artamonov.servlet.mapper.CarDtoMapper;
-import ru.artamonov.servlet.mapper.CarDtoMapperImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;

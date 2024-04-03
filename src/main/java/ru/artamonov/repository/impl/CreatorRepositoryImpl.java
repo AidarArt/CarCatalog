@@ -1,10 +1,10 @@
 package ru.artamonov.repository.impl;
 
 import ru.artamonov.db.ConnectionManager;
-import ru.artamonov.model.BrandEntity;
 import ru.artamonov.model.CarEntity;
 import ru.artamonov.model.CreatorEntity;
 import ru.artamonov.repository.mapper.CreatorRepository;
+import ru.artamonov.repository.parser.impl.CreatorResultParser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +16,7 @@ import java.util.List;
 public class CreatorRepositoryImpl implements CreatorRepository {
 
     private final ConnectionManager manager;
+    private final CreatorResultParser resultParser = new CreatorResultParser();
 
     public CreatorRepositoryImpl(ConnectionManager manager) {
         this.manager = manager;
@@ -23,68 +24,43 @@ public class CreatorRepositoryImpl implements CreatorRepository {
 
     @Override
     public List<CarEntity> getCreatorCars(Long creatorId) {
-        List<CarEntity> entities = new ArrayList<>();
         String query = "SELECT * FROM car JOIN brand b on car.car_brand_id = b.brand_id JOIN car_creator cc on car.car_id = cc.car_id WHERE creator_id = ?;";
         try (Connection connection = manager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, creatorId);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                CarEntity entity = new CarEntity();
-                entity.setCarId(resultSet.getLong(1));
-                entity.setCarModelName(resultSet.getString(2));
-                BrandEntity brand = new BrandEntity();
-                brand.setBrandId(resultSet.getLong(4));
-                brand.setBrandName(resultSet.getString(5));
-                brand.setBrandCountry(resultSet.getString(6));
-                entity.setCarBrand(brand);
-                entities.add(entity);
-            }
+            return resultParser.getCreatorCars(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return entities;
+        return new ArrayList<>();
     }
 
     @Override
     public CreatorEntity findById(Long id) {
-        CreatorEntity entity = new CreatorEntity();
         String query = "SELECT * FROM creator WHERE creator_id = ?";
         try (Connection connection = manager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                entity.setCreatorId(resultSet.getLong(1));
-                entity.setCreatorName(resultSet.getString(2));
-                entity.setCreatorSurname(resultSet.getString(3));
-                entity.setCreatorProfession(resultSet.getString(4));
-            }
+            return resultParser.getEntity(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return entity;
+        throw new IllegalArgumentException();
     }
 
     @Override
     public List<CreatorEntity> findAll() {
-        List<CreatorEntity> entities = new ArrayList<>();
         String query = "SELECT * FROM creator;";
         try (Connection connection = manager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                CreatorEntity entity = new CreatorEntity();
-                entity.setCreatorId(resultSet.getLong(1));
-                entity.setCreatorName(resultSet.getString(2));
-                entity.setCreatorSurname(resultSet.getString(3));
-                entity.setCreatorProfession(resultSet.getString(4));
-                entities.add(entity);
-            }
+            return resultParser.getAllEntities(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return entities;
+        return new ArrayList<>();
     }
 
     @Override

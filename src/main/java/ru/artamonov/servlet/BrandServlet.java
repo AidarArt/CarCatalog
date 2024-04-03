@@ -9,10 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import ru.artamonov.model.BrandEntity;
 import ru.artamonov.service.BrandService;
 import ru.artamonov.service.impl.BrandServiceImpl;
-import ru.artamonov.servlet.dto.BrandIncomingDto;
-import ru.artamonov.servlet.dto.BrandOutGoingDto;
-import ru.artamonov.servlet.mapper.BrandDtoMapper;
-import ru.artamonov.servlet.mapper.BrandDtoMapperImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;

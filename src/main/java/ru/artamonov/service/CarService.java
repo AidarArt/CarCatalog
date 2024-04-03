@@ -1,6 +1,7 @@
 package ru.artamonov.service;
 
 import ru.artamonov.model.CarEntity;
+import ru.artamonov.model.CreatorEntity;
 
 import java.util.List;
 
@@ -11,4 +12,5 @@ public interface CarService {
     CarEntity save(CarEntity carEntity);
     CarEntity update(CarEntity carEntity);
     void delete(Long carId);
+    List<CreatorEntity> getCarCreators(Long carId);
 }

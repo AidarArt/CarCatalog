@@ -2,13 +2,11 @@ package ru.artamonov.repository.parser.impl;
 
 import ru.artamonov.model.BrandEntity;
 import ru.artamonov.model.CarEntity;
-import ru.artamonov.model.EngineEntity;
-import ru.artamonov.model.enums.BodyType;
-import ru.artamonov.model.enums.Country;
-import ru.artamonov.model.enums.EngineType;
-import ru.artamonov.model.enums.Transmission;
+import ru.artamonov.model.CreatorEntity;
 import ru.artamonov.repository.parser.ResultParser;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,85 +15,46 @@ import java.util.List;
 public class CarResultParser implements ResultParser<CarEntity> {
     @Override
     public CarEntity getEntity(ResultSet resultSet) throws SQLException {
-        CarEntity carEntity = new CarEntity();
-
+        CarEntity entity = new CarEntity();
         while (resultSet.next()) {
-            carEntity.setCarId(resultSet.getLong(1));
-            carEntity.setCarModelName(resultSet.getString(2));
-
+            entity.setCarId(resultSet.getLong(1));
+            entity.setCarModelName(resultSet.getString(2));
             BrandEntity brand = new BrandEntity();
-            brand.setBrandId(resultSet.getLong(3));
-            brand.setBrandName(resultSet.getString(10));
-            brand.setBrandCountry(Country.valueOf(resultSet.getString(11)));
-            carEntity.setCarBrand(brand);
-
-            EngineEntity engine = new EngineEntity();
-            engine.setEngineId(resultSet.getLong(4));
-
-            BrandEntity engineBrand = new BrandEntity();
-            engineBrand.setBrandId(resultSet.getLong(13));
-            engineBrand.setBrandName(resultSet.getString(20));
-            engineBrand.setBrandCountry(Country.valueOf(resultSet.getString(21)));
-
-            engine.setBrand(engineBrand);
-            engine.setEngineCapacity(resultSet.getDouble(14));
-            engine.setEngineHorsePower(resultSet.getDouble(15));
-            engine.setEngineCylindersNumber(resultSet.getInt(16));
-            engine.setEngineConsumption(resultSet.getDouble(17));
-            engine.setEngineType(EngineType.valueOf(resultSet.getString(18)));
-            carEntity.setCarEngine(engine);
-
-            carEntity.setCarAccelerationTo100(resultSet.getDouble(5));
-            carEntity.setCarMaxSpeed(resultSet.getDouble(6));
-            carEntity.setCarTransmission(Transmission.valueOf(resultSet.getString(7)));
-            carEntity.setCarBodyType(BodyType.valueOf(resultSet.getString(8)));
+            brand.setBrandId(resultSet.getLong(4));
+            brand.setBrandName(resultSet.getString(5));
+            brand.setBrandCountry(resultSet.getString(6));
+            entity.setCarBrand(brand);
         }
-
-        return carEntity;
+        return entity;
     }
 
     @Override
     public List<CarEntity> getAllEntities(ResultSet resultSet) throws SQLException {
         List<CarEntity> entities = new ArrayList<>();
-
         while (resultSet.next()) {
-            CarEntity carEntity = new CarEntity();
-
-            carEntity.setCarId(resultSet.getLong(1));
-            carEntity.setCarModelName(resultSet.getString(2));
-
+            CarEntity entity = new CarEntity();
+            entity.setCarId(resultSet.getLong(1));
+            entity.setCarModelName(resultSet.getString(2));
             BrandEntity brand = new BrandEntity();
-            brand.setBrandId(resultSet.getLong(3));
-            brand.setBrandName(resultSet.getString(10));
-            brand.setBrandCountry(Country.valueOf(resultSet.getString(11)));
-            carEntity.setCarBrand(brand);
-
-            EngineEntity engine = new EngineEntity();
-            engine.setEngineId(resultSet.getLong(4));
-
-            BrandEntity engineBrand = new BrandEntity();
-            engineBrand.setBrandId(resultSet.getLong(13));
-            engineBrand.setBrandName(resultSet.getString(20));
-            engineBrand.setBrandCountry(Country.valueOf(resultSet.getString(21)));
-
-            engine.setBrand(engineBrand);
-            engine.setEngineCapacity(resultSet.getDouble(14));
-            engine.setEngineHorsePower(resultSet.getDouble(15));
-            engine.setEngineCylindersNumber(resultSet.getInt(16));
-            engine.setEngineConsumption(resultSet.getDouble(17));
-            engine.setEngineType(EngineType.valueOf(resultSet.getString(18)));
-            carEntity.setCarEngine(engine);
-
-            carEntity.setCarAccelerationTo100(resultSet.getDouble(5));
-            carEntity.setCarMaxSpeed(resultSet.getDouble(6));
-            carEntity.setCarTransmission(Transmission.valueOf(resultSet.getString(7)));
-            carEntity.setCarBodyType(BodyType.valueOf(resultSet.getString(8)));
-
-            entities.add(carEntity);
+            brand.setBrandId(resultSet.getLong(4));
+            brand.setBrandName(resultSet.getString(5));
+            brand.setBrandCountry(resultSet.getString(6));
+            entity.setCarBrand(brand);
+            entities.add(entity);
         }
-
         return entities;
     }
 
-
+    public List<CreatorEntity> getCarCreators(ResultSet resultSet) throws SQLException {
+        List<CreatorEntity> entities = new ArrayList<>();
+        while (resultSet.next()) {
+            CreatorEntity entity = new CreatorEntity();
+            entity.setCreatorId(resultSet.getLong(1));
+            entity.setCreatorName(resultSet.getString(2));
+            entity.setCreatorSurname(resultSet.getString(3));
+            entity.setCreatorProfession(resultSet.getString(4));
+            entities.add(entity);
+        }
+        return entities;
+    }
 }

@@ -1,7 +1,5 @@
 package ru.artamonov.model;
 
-import ru.artamonov.model.enums.Country;
-
 import java.util.List;
 
 public class BrandEntity {
