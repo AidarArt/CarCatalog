@@ -22,23 +22,31 @@ public class CarServiceImpl implements CarService {
             throw new NullPointerException(NULL_ID_MESSAGE);
         if (id < 0)
             throw new IllegalArgumentException(NEGATIVE_ID_MESSAGE);
-        if (existingId(id))
-            return repository.findById(id);
-        else
+        if (existingId(id)) {
+            CarEntity entity = repository.findById(id);
+            entity.setCarCreators(repository.getCarCreators(entity.getCarId()));
+            return entity;
+        }
+        else {
             throw new NullPointerException(String.format(NOT_FOUND_MESSAGE, id));
+        }
     }
 
     @Override
     public List<CarEntity> findAll() {
-        return repository.findAll();
+        List<CarEntity> entities = repository.findAll();
+        for (CarEntity entity : entities) {
+            entity.setCarCreators(repository.getCarCreators(entity.getCarId()));
+        }
+        return entities;
     }
 
     @Override
     public CarEntity save(CarEntity carEntity) {
-        if (carEntity.getCarModelName().isEmpty())
-            throw new NullPointerException("Car model name cannot be empty");
-        if (carEntity.getCarBrand() == null)
-            throw new IllegalArgumentException("Car brand cannot be null");
+//        if (carEntity.getCarModelName().isEmpty())
+//            throw new NullPointerException("Car model name cannot be empty");
+//        if (carEntity.getCarBrand() == null)
+//            throw new IllegalArgumentException("Car brand cannot be null");
         repository.insert(carEntity);
         return carEntity;
     }
